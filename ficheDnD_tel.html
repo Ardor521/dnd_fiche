@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fiche D&D 5e</title>
+
+  <style>
+    * {
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    input, textarea {
+      -webkit-user-select: text;
+      -webkit-touch-callout: default;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #b91c1c;
+      color: white;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 13px;
+      touch-action: manipulation;
+    }
+
+    .btn-white {
+      background: white;
+      color: #b91c1c;
+    }
+
+    .btn-dark {
+      background: #111827;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+      overflow: hidden;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .nav {
+      background: #1f2937;
+      color: white;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav button {
+      background: #b91c1c;
+      color: white;
+      padding: 6px 8px;
+      font-size: 12px;
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .nav button:disabled {
+      background: #4b5563;
+      cursor: not-allowed;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hidden-file {
+      display: none;
+    }
+
+    .page-container {
+      height: 100%;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    /* MOBILE FIRST */
+    @media (max-width: 768px) {
+      header {
+        padding: 8px 10px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      header h1 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+
+      .top-buttons {
+        justify-content: stretch;
+      }
+
+      .top-buttons button {
+        flex: 1;
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      main {
+        padding: 8px;
+      }
+
+      .page-container {
+        grid-template-columns: 1fr;
+      }
+
+      .col {
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+
+      .nav {
+        flex-direction: column;
+        padding: 8px;
+        gap: 6px;
+      }
+
+      .page-buttons {
+        width: 100%;
+        justify-content: stretch !important;
+      }
+
+      .page-btn {
+        flex: 1;
+        padding: 8px !important;
+        font-size: 11px !important;
+      }
+
+      .nav button {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: 12px;
+      }
+
+      input, textarea {
+        font-size: 16px !important;
+        padding: 8px !important;
+      }
+
+      .box {
+        padding: 6px;
+        margin-bottom: 8px;
+      }
+
+      .box-title {
+        font-size: 10px;
+      }
+
+      .stat-box {
+        padding: 4px;
+      }
+
+      .stat-box-title {
+        font-size: 10px;
+      }
+
+      .tiny-input {
+        min-height: 36px;
+        min-width: 40px;
+      }
+
+      .check {
+        width: 18px !important;
+        height: 18px !important;
+      }
+
+      .row {
+        margin-bottom: 8px;
+        min-height: 36px;
+      }
+
+      .row label {
+        font-size: 13px;
+      }
+
+      .money-grid {
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+      }
+    }
+
+    @media (max-width: 500px) {
+      header h1 {
+        font-size: 14px;
+      }
+
+      .box {
+        padding: 5px;
+      }
+
+      input, textarea {
+        font-size: 15px !important;
+      }
+
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .money-grid {
+        grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
+      }
+
+      .money-grid div {
+        padding: 3px;
+      }
+
+      .stat-box {
+        padding: 3px;
+      }
+    }
+
+    /* DESKTOP */
+    @media (min-width: 769px) {
+      .page-container {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .nav {
+        flex-direction: row;
+      }
+
+      .page-buttons {
+        justify-content: center;
+      }
+    }
+
+    .col {
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .box {
+      background: white;
+      padding: 8px;
+      border-radius: 8px;
+      border: 2px solid #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .box-title {
+      font-size: 10px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #9ca3af;
+      background: #f9fafb;
+      border-radius: 6px;
+      box-sizing: border-box;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    textarea {
+      resize: none;
+      overflow: hidden;
+      min-height: 30px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .row label {
+      flex: 1;
+      font-size: 13px;
+    }
+
+    .tiny-input {
+      width: 55px !important;
+      margin: 0 !important;
+    }
+
+    .check {
+      width: 16px !important;
+      height: 16px !important;
+      margin: 0 !important;
+      flex-shrink: 0;
+    }
+
+    .stat-box {
+      background: #f3f4f6;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      text-align: center;
+    }
+
+    .stat-box-title {
+      font-weight: bold;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+
+    .money-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .money-grid div {
+      text-align: center;
+    }
+
+    .money-grid b {
+      font-size: 11px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    /* Boutons pages */
+    .page-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .page-btn {
+      background: #374151;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      border: 1px solid #4b5563;
+      min-height: 36px;
+    }
+
+    .page-btn.active {
+      background: white;
+      color: #b91c1c;
+      border: 1px solid white;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Fiche D&D 5e</h1>
+
+  <div class="top-buttons">
+    <button class="btn-white" onclick="exportFile()">Exporter</button>
+    <button class="btn-white" onclick="document.getElementById('fileInput').click()">Importer</button>
+    <button class="btn-dark" onclick="resetSheet()">Reset</button>
+  </div>
+
+  <input class="hidden-file" type="file" id="fileInput" accept=".json" onchange="importFile(event)" />
+</header>
+
+<main>
+  <div id="content" style="height:100%;"></div>
+</main>
+
+<div class="nav">
+  <button onclick="prevPage()" id="prevBtn">◀ Précédent</button>
+
+  <div class="page-buttons">
+    <button class="page-btn" id="btn0" onclick="goToPage(0)">Principale</button>
+    <button class="page-btn" id="btn1" onclick="goToPage(1)">Personnage</button>
+    <button class="page-btn" id="btn2" onclick="goToPage(2)">Sorts</button>
+    <button class="page-btn" id="btn3" onclick="goToPage(3)">Notes</button>
+  </div>
+
+  <button onclick="nextPage()" id="nextBtn">Suivant ▶</button>
+</div>
+
+<script>
+  let page = 0;
+  let charData = {};
+
+  function setValue(key, value) {
+    charData[key] = value;
+  }
+
+  function getSafe(key) {
+    return (charData[key] || "").toString().replace(/"/g, '&quot;');
+  }
+
+  function inputField(key, placeholder = "") {
+    return `
+      <input type="text" placeholder="${placeholder}"
+        value="${getSafe(key)}"
+        oninput="setValue('${key}', this.value)">
+    `;
+  }
+
+  function tinyInputField(key, placeholder = "") {
+    return `
+      <input class="tiny-input" type="text" placeholder="${placeholder}"
+        value="${getSafe(key)}"
+        oninput="setValue('${key}', this.value)">
+    `;
+  }
+
+  function checkboxField(key) {
+    const checked = charData[key] ? "checked" : "";
+    return `
+      <input class="check" type="checkbox" ${checked}
+        onchange="setValue('${key}', this.checked)">
+    `;
+  }
+
+  function textAreaField(key, placeholder = "", rows = 2) {
+    const value = (charData[key] || "").toString();
+    return `
+      <textarea rows="${rows}" placeholder="${placeholder}"
+        oninput="setValue('${key}', this.value); autoResize(this);"
+      >${value}</textarea>
+    `;
+  }
+
+  function autoResize(textarea) {
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+  }
+
+  function box(title, content) {
+    return `
+      <div class="box">
+        <div class="box-title">${title}</div>
+        ${content}
+      </div>
+    `;
+  }
+
+  function updatePageButtons() {
+    for (let i = 0; i < 4; i++) {
+      document.getElementById("btn" + i).classList.remove("active");
+    }
+    document.getElementById("btn" + page).classList.add("active");
+  }
+
+  function goToPage(p) {
+    page = p;
+    renderPage();
+  }
+
+  function exportFile() {
+    const json = JSON.stringify(charData, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "dnd-char.json";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function importFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (typeof data === "object" && data !== null) {
+          charData = data;
+          renderPage();
+          alert("✓ Fiche importée !");
+        } else {
+          alert("✗ Fichier invalide !");
+        }
+      } catch (err) {
+        alert("✗ Erreur : JSON invalide !");
+      }
+    };
+
+    reader.readAsText(file);
+  }
+
+  function resetSheet() {
+    if (confirm("Effacer toute la fiche ?")) {
+      charData = {};
+      renderPage();
+    }
+  }
+
+  function renderPage() {
+    document.getElementById("prevBtn").disabled = (page === 0);
+    document.getElementById("nextBtn").disabled = (page === 3);
+
+    updatePageButtons();
+
+    let html = "";
+
+    // PAGE 1
+    if (page === 0) {
+      html += `<div class="page-container">`;
+
+      html += `<div class="col">`;
+      html += box("Identité", `
+        ${inputField("nom", "Nom du personnage")}
+        <div class="grid-2">
+          ${inputField("classe", "Classe & niveau")}
+          ${inputField("race", "Race")}
+        </div>
+        <div class="grid-2">
+          ${inputField("bg", "Historique")}
+          ${inputField("align", "Alignement")}
+        </div>
+        <div class="grid-2">
+          ${inputField("joueur", "Nom du joueur")}
+          ${inputField("xp", "XP")}
+        </div>
+      `);
+
+      html += box("Caractéristiques", `
+        <div class="grid-3">
+          ${["FOR","DEX","CON","INT","SAG","CHA"].map((stat, i) => `
+            <div class="stat-box">
+              <div class="stat-box-title">${stat}</div>
+              ${inputField("car"+i, "Score")}
+              ${inputField("mod"+i, "Mod")}
+            </div>
+          `).join("")}
+        </div>
+      `);
+
+      html += box("Jets de sauvegarde", `
+        ${[
+          "Force (FOR)",
+          "Dextérité (DEX)",
+          "Constitution (CON)",
+          "Intelligence (INT)",
+          "Sagesse (SAG)",
+          "Charisme (CHA)"
+        ].map((save, i) => `
+          <div class="row">
+            ${checkboxField("js"+i)}
+            ${tinyInputField("jsv"+i, "+0")}
+            <label>${save}</label>
+          </div>
+        `).join("")}
+      `);
+
+      html += `</div>`;
+
+      html += `<div class="col">`;
+      html += box("Compétences", `
+        ${[
+          "Acrobaties (DEX)",
+          "Arcanes (INT)",
+          "Athlétisme (FOR)",
+          "Discrétion (DEX)",
+          "Dressage (SAG)",
+          "Escamotage (DEX)",
+          "Histoire (INT)",
+          "Intimidation (CHA)",
+          "Investigation (INT)",
+          "Médecine (SAG)",
+          "Nature (INT)",
+          "Perception (SAG)",
+          "Perspicacité (SAG)",
+          "Persuasion (CHA)",
+          "Religion (INT)",
+          "Représentation (CHA)",
+          "Survie (SAG)",
+          "Tromperie (CHA)"
+        ].map((skill, i) => `
+          <div class="row">
+            ${checkboxField("sk"+i)}
+            ${tinyInputField("skv"+i, "+0")}
+            <label>${skill}</label>
+          </div>
+        `).join("")}
+      `);
+
+      html += box("Maîtrises & Langues", `
+        ${textAreaField("mait", "Listez vos maîtrises et langues...", 3)}
+      `);
+
+      html += box("Perception passive", `
+        ${inputField("percp", "10")}
+      `);
+
+      html += `</div>`;
+
+      html += `<div class="col">`;
+
+      html += box("Défense", `
+        <div class="grid-3">
+          <div>
+            <div class="box-title">CA</div>
+            ${inputField("ca", "10")}
+          </div>
+          <div>
+            <div class="box-title">Initiative</div>
+            ${inputField("init", "+0")}
+          </div>
+          <div>
+            <div class="box-title">Vitesse</div>
+            ${inputField("vit", "30")}
+          </div>
+        </div>
+      `);
+
+      html += box("Points de vie", `
+        <div class="grid-3">
+          <div>
+            <div class="box-title">Max</div>
+            ${inputField("pvmax", "10")}
+          </div>
+          <div>
+            <div class="box-title">Actuels</div>
+            ${inputField("pv", "10")}
+          </div>
+          <div>
+            <div class="box-title">Temp</div>
+            ${inputField("pvt", "0")}
+          </div>
+        </div>
+      `);
+
+      html += box("Jets contre la mort", `
+        <div class="grid-2">
+          <div>
+            <div class="box-title">Succès</div>
+            <div class="row">
+              ${checkboxField("ds1")}<label>1</label>
+              ${checkboxField("ds2")}<label>2</label>
+              ${checkboxField("ds3")}<label>3</label>
+            </div>
+          </div>
+          <div>
+            <div class="box-title">Échecs</div>
+            <div class="row">
+              ${checkboxField("df1")}<label>1</label>
+              ${checkboxField("df2")}<label>2</label>
+              ${checkboxField("df3")}<label>3</label>
+            </div>
+          </div>
+        </div>
+      `);
+
+      html += box("Attaques et sorts", `
+        ${textAreaField("atk", "Listez vos attaques...", 4)}
+      `);
+
+      html += box("Équipement", `
+        ${textAreaField("equip", "Votre équipement...", 4)}
+      `);
+
+      html += box("Monnaie", `
+        <div class="money-grid">
+          <div><b>PC</b>${inputField("m0", "0")}</div>
+          <div><b>PA</b>${inputField("m1", "0")}</div>
+          <div><b>PE</b>${inputField("m2", "0")}</div>
+          <div><b>PO</b>${inputField("m3", "0")}</div>
+          <div><b>PP</b>${inputField("m4", "0")}</div>
+        </div>
+      `);
+
+      html += `</div>`;
+      html += `</div>`;
+    }
+
+    // PAGE 2
+    if (page === 1) {
+      html += `<div class="page-container">`;
+
+      html += `<div class="col">`;
+      html += box("Identité", `
+        ${inputField("nom", "Nom du personnage")}
+        <div class="grid-3">
+          ${inputField("age", "Âge")}
+          ${inputField("tail", "Taille")}
+          ${inputField("poid", "Poids")}
+        </div>
+      `);
+
+      html += box("Apparence physique", `
+        <div class="grid-3">
+          ${inputField("yeux", "Yeux")}
+          ${inputField("peau", "Peau")}
+          ${inputField("chev", "Cheveux")}
+        </div>
+        ${textAreaField("app", "Décrivez l'apparence...", 4)}
+      `);
+      html += `</div>`;
+
+      html += `<div class="col">`;
+      html += box("Traits de personnalité", `
+        ${textAreaField("trait", "Vos traits...", 4)}
+      `);
+
+      html += box("Histoire", `
+        ${textAreaField("hist", "L'histoire du personnage...", 6)}
+      `);
+      html += `</div>`;
+
+      html += `<div class="col">`;
+      html += box("Alliés et organisations", `
+        ${textAreaField("allie", "Vos alliés...", 5)}
+      `);
+
+      html += box("Ennemis", `
+        ${textAreaField("ennemis", "Vos ennemis...", 5)}
+      `);
+
+      html += box("Traits supplémentaires", `
+        ${textAreaField("supp", "Autres capacités...", 5)}
+      `);
+
+      html += box("Trésor", `
+        ${textAreaField("tres", "Objets magiques, objets rares...", 5)}
+      `);
+      html += `</div>`;
+
+      html += `</div>`;
+    }
+
+    // PAGE 3
+    if (page === 2) {
+      html += `<div class="page-container">`;
+
+      html += `<div class="col">`;
+      html += box("Infos magie", `
+        ${inputField("nom", "Nom du personnage")}
+        <div class="grid-2">
+          ${inputField("clasort", "Classe lanceur")}
+          ${inputField("caraso", "Caractéristique")}
+        </div>
+        <div class="grid-2">
+          ${inputField("dd", "DD sauvegarde")}
+          ${inputField("bonat", "Bonus attaque")}
+        </div>
+      `);
+
+      html += box("Sorts mineurs (0)", `
+        ${textAreaField("sort0", "Liste des sorts mineurs...", 6)}
+      `);
+      html += `</div>`;
+
+      html += `<div class="col">`;
+      for (let n = 1; n <= 4; n++) {
+        html += box("Niveau " + n, `
+          <div class="row">
+            <label>Utilisés / Total</label>
+            ${tinyInputField("sl" + n + "u", "0")}
+            <span style="font-weight:bold;">/</span>
+            ${tinyInputField("sl" + n, "0")}
+          </div>
+          ${textAreaField("sort" + n, "Sorts niveau " + n + "...", 4)}
+        `);
+      }
+      html += `</div>`;
+
+      html += `<div class="col">`;
+      for (let n = 5; n <= 9; n++) {
+        html += box("Niveau " + n, `
+          <div class="row">
+            <label>Utilisés / Total</label>
+            ${tinyInputField("sl" + n + "u", "0")}
+            <span style="font-weight:bold;">/</span>
+            ${tinyInputField("sl" + n, "0")}
+          </div>
+          ${textAreaField("sort" + n, "Sorts niveau " + n + "...", 4)}
+        `);
+      }
+      html += `</div>`;
+
+      html += `</div>`;
+    }
+
+    // PAGE 4
+    if (page === 3) {
+      html += `<div class="page-container">`;
+
+      html += `<div class="col"></div>`;
+
+      html += `<div class="col">`;
+      html += box("Notes", `
+        ${inputField("nom", "Nom du personnage")}
+        ${textAreaField("notes", "Écris tes notes ici...", 20)}
+      `);
+      html += `</div>`;
+
+      html += `<div class="col"></div>`;
+
+      html += `</div>`;
+    }
+
+    document.getElementById("content").innerHTML = html;
+
+    setTimeout(() => {
+      document.querySelectorAll("textarea").forEach(t => autoResize(t));
+    }, 0);
+  }
+
+  function nextPage() {
+    if (page < 3) {
+      page++;
+      renderPage();
+    }
+  }
+
+  function prevPage() {
+    if (page > 0) {
+      page--;
+      renderPage();
+    }
+  }
+
+  renderPage();
+</script>
+
+</body>
+</html>
