@@ -65,7 +65,7 @@
 
     main {
       flex: 1;
-      overflow: hidden;
+      overflow-y: auto;
       padding: 10px;
       box-sizing: border-box;
     }
@@ -73,22 +73,18 @@
     .nav {
       background: #1f2937;
       color: white;
-      padding: 8px 12px;
+      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-shrink: 0;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .nav button {
       background: #b91c1c;
       color: white;
-      padding: 6px 8px;
-      font-size: 12px;
-      min-height: 44px;
-      min-width: 44px;
     }
 
     .nav button:disabled {
@@ -107,143 +103,13 @@
     }
 
     .page-container {
-      height: 100%;
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
-      grid-template-columns: 1fr;
-    }
-
-    /* DESKTOP */
-    @media (min-width: 769px) {
-      .page-container {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-
-      .nav {
-        flex-direction: row;
-      }
-
-      .page-buttons {
-        justify-content: center;
-      }
-
-      .top-buttons {
-        justify-content: flex-start;
-      }
-
-      .top-buttons button {
-        padding: 7px 10px;
-      }
-
-      main {
-        padding: 10px;
-      }
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 8px;
-      }
-
-      header h1 {
-        font-size: 16px;
-        margin-bottom: 8px;
-      }
-
-      .top-buttons {
-        width: 100%;
-      }
-
-      .top-buttons button {
-        flex: 1;
-        padding: 10px;
-        font-size: 12px;
-      }
-
-      main {
-        padding: 8px;
-      }
-
-      .nav {
-        flex-direction: column;
-        padding: 8px;
-        gap: 6px;
-      }
-
-      .page-buttons {
-        width: 100%;
-        justify-content: stretch !important;
-        order: 2;
-      }
-
-      .page-btn {
-        flex: 1;
-        padding: 8px !important;
-        font-size: 11px !important;
-      }
-
-      .nav button {
-        flex: 1;
-        padding: 10px 8px;
-        font-size: 12px;
-      }
-
-      input, textarea {
-        font-size: 16px !important;
-        padding: 8px !important;
-      }
-
-      .box {
-        padding: 6px;
-        margin-bottom: 8px;
-      }
-
-      .box-title {
-        font-size: 10px;
-      }
-
-      .stat-box {
-        padding: 4px;
-      }
-
-      .stat-box-title {
-        font-size: 10px;
-      }
-
-      .tiny-input {
-        min-height: 36px;
-        min-width: 40px;
-      }
-
-      .check {
-        width: 18px !important;
-        height: 18px !important;
-      }
-
-      .row {
-        margin-bottom: 8px;
-        min-height: 36px;
-      }
-
-      .row label {
-        font-size: 13px;
-      }
-
-      .money-grid {
-        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-      }
-
-      .grid-2, .grid-3 {
-        grid-template-columns: 1fr;
-      }
     }
 
     .col {
-      overflow-y: auto;
-      padding-right: 4px;
+      display: contents;
     }
 
     .box {
@@ -251,7 +117,7 @@
       padding: 8px;
       border-radius: 8px;
       border: 2px solid #9ca3af;
-      margin-bottom: 10px;
+      margin-bottom: 0;
     }
 
     .box-title {
@@ -359,7 +225,6 @@
       border-radius: 6px;
       font-size: 12px;
       border: 1px solid #4b5563;
-      min-height: 36px;
     }
 
     .page-btn.active {
@@ -385,11 +250,11 @@
 </header>
 
 <main>
-  <div id="content" style="height:100%;"></div>
+  <div id="content"></div>
 </main>
 
 <div class="nav">
-  <button onclick="prevPage()" id="prevBtn">◀ Précédent</button>
+  <button onclick="prevPage()" id="prevBtn">Précédent</button>
 
   <div class="page-buttons">
     <button class="page-btn" id="btn0" onclick="goToPage(0)">Principale</button>
@@ -398,7 +263,7 @@
     <button class="page-btn" id="btn3" onclick="goToPage(3)">Notes</button>
   </div>
 
-  <button onclick="nextPage()" id="nextBtn">Suivant ▶</button>
+  <button onclick="nextPage()" id="nextBtn">Suivant</button>
 </div>
 
 <script>
@@ -521,13 +386,10 @@
 
     updatePageButtons();
 
-    let html = "";
+    let html = `<div class="page-container">`;
 
     // PAGE 1
     if (page === 0) {
-      html += `<div class="page-container">`;
-
-      html += `<div class="col">`;
       html += box("Identité", `
         ${inputField("nom", "Nom du personnage")}
         <div class="grid-2">
@@ -573,9 +435,6 @@
         `).join("")}
       `);
 
-      html += `</div>`;
-
-      html += `<div class="col">`;
       html += box("Compétences", `
         ${[
           "Acrobaties (DEX)",
@@ -612,10 +471,6 @@
       html += box("Perception passive", `
         ${inputField("percp", "10")}
       `);
-
-      html += `</div>`;
-
-      html += `<div class="col">`;
 
       html += box("Défense", `
         <div class="grid-3">
@@ -689,16 +544,10 @@
           <div><b>PP</b>${inputField("m4", "0")}</div>
         </div>
       `);
-
-      html += `</div>`;
-      html += `</div>`;
     }
 
     // PAGE 2
     if (page === 1) {
-      html += `<div class="page-container">`;
-
-      html += `<div class="col">`;
       html += box("Identité", `
         ${inputField("nom", "Nom du personnage")}
         <div class="grid-3">
@@ -716,9 +565,7 @@
         </div>
         ${textAreaField("app", "Décrivez l'apparence...", 4)}
       `);
-      html += `</div>`;
 
-      html += `<div class="col">`;
       html += box("Traits de personnalité", `
         ${textAreaField("trait", "Vos traits...", 4)}
       `);
@@ -726,9 +573,7 @@
       html += box("Histoire", `
         ${textAreaField("hist", "L'histoire du personnage...", 6)}
       `);
-      html += `</div>`;
 
-      html += `<div class="col">`;
       html += box("Alliés et organisations", `
         ${textAreaField("allie", "Vos alliés...", 5)}
       `);
@@ -744,16 +589,10 @@
       html += box("Trésor", `
         ${textAreaField("tres", "Objets magiques, objets rares...", 5)}
       `);
-      html += `</div>`;
-
-      html += `</div>`;
     }
 
     // PAGE 3
     if (page === 2) {
-      html += `<div class="page-container">`;
-
-      html += `<div class="col">`;
       html += box("Infos magie", `
         ${inputField("nom", "Nom du personnage")}
         <div class="grid-2">
@@ -769,10 +608,8 @@
       html += box("Sorts mineurs (0)", `
         ${textAreaField("sort0", "Liste des sorts mineurs...", 6)}
       `);
-      html += `</div>`;
 
-      html += `<div class="col">`;
-      for (let n = 1; n <= 4; n++) {
+      for (let n = 1; n <= 9; n++) {
         html += box("Niveau " + n, `
           <div class="row">
             <label>Utilisés / Total</label>
@@ -783,42 +620,17 @@
           ${textAreaField("sort" + n, "Sorts niveau " + n + "...", 4)}
         `);
       }
-      html += `</div>`;
-
-      html += `<div class="col">`;
-      for (let n = 5; n <= 9; n++) {
-        html += box("Niveau " + n, `
-          <div class="row">
-            <label>Utilisés / Total</label>
-            ${tinyInputField("sl" + n + "u", "0")}
-            <span style="font-weight:bold;">/</span>
-            ${tinyInputField("sl" + n, "0")}
-          </div>
-          ${textAreaField("sort" + n, "Sorts niveau " + n + "...", 4)}
-        `);
-      }
-      html += `</div>`;
-
-      html += `</div>`;
     }
 
     // PAGE 4
     if (page === 3) {
-      html += `<div class="page-container">`;
-
-      html += `<div class="col"></div>`;
-
-      html += `<div class="col">`;
       html += box("Notes", `
         ${inputField("nom", "Nom du personnage")}
         ${textAreaField("notes", "Écris tes notes ici...", 20)}
       `);
-      html += `</div>`;
-
-      html += `<div class="col"></div>`;
-
-      html += `</div>`;
     }
+
+    html += `</div>`;
 
     document.getElementById("content").innerHTML = html;
 
