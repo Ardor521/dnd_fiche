@@ -110,15 +110,42 @@
       height: 100%;
       display: grid;
       gap: 10px;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr;
     }
 
-    /* MOBILE FIRST */
+    /* DESKTOP */
+    @media (min-width: 769px) {
+      .page-container {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .nav {
+        flex-direction: row;
+      }
+
+      .page-buttons {
+        justify-content: center;
+      }
+
+      .top-buttons {
+        justify-content: flex-start;
+      }
+
+      .top-buttons button {
+        padding: 7px 10px;
+      }
+
+      main {
+        padding: 10px;
+      }
+    }
+
+    /* MOBILE */
     @media (max-width: 768px) {
       header {
-        padding: 8px 10px;
         flex-direction: column;
         align-items: stretch;
+        padding: 8px;
       }
 
       header h1 {
@@ -127,7 +154,7 @@
       }
 
       .top-buttons {
-        justify-content: stretch;
+        width: 100%;
       }
 
       .top-buttons button {
@@ -140,15 +167,6 @@
         padding: 8px;
       }
 
-      .page-container {
-        grid-template-columns: 1fr;
-      }
-
-      .col {
-        overflow-y: auto;
-        padding-right: 4px;
-      }
-
       .nav {
         flex-direction: column;
         padding: 8px;
@@ -158,6 +176,7 @@
       .page-buttons {
         width: 100%;
         justify-content: stretch !important;
+        order: 2;
       }
 
       .page-btn {
@@ -216,50 +235,9 @@
       .money-grid {
         grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
       }
-    }
-
-    @media (max-width: 500px) {
-      header h1 {
-        font-size: 14px;
-      }
-
-      .box {
-        padding: 5px;
-      }
-
-      input, textarea {
-        font-size: 15px !important;
-      }
 
       .grid-2, .grid-3 {
         grid-template-columns: 1fr;
-      }
-
-      .money-grid {
-        grid-template-columns: repeat(auto-fit, minmax(45px, 1fr));
-      }
-
-      .money-grid div {
-        padding: 3px;
-      }
-
-      .stat-box {
-        padding: 3px;
-      }
-    }
-
-    /* DESKTOP */
-    @media (min-width: 769px) {
-      .page-container {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-
-      .nav {
-        flex-direction: row;
-      }
-
-      .page-buttons {
-        justify-content: center;
       }
     }
 
